@@ -22,13 +22,13 @@ typedef struct {
 } AdjacencyMatrix;
 
 typedef struct {
-    int id;
+    char id[20];
     char name[50];
     char desc[100];
 } ScenicSpot;
 
 typedef struct AdjNode {
-    int spot_id;
+    char spot_id[20];
     int distance;
     struct AdjNode* next;
 } AdjNode;
@@ -54,8 +54,8 @@ void adj_matrix_print(const AdjacencyMatrix* mat);
 
 Graph* graph_create(int capacity);
 void graph_destroy(Graph* graph);
-int graph_add_spot(Graph* graph, int id, const char* name, const char* desc);
-int graph_add_path(Graph* graph, int from_id, int to_id, int distance);
+int graph_add_spot(Graph* graph, const char* id, const char* name, const char* desc);
+int graph_add_path(Graph* graph, const char* from_id, const char* to_id, int distance);
 void graph_display(Graph* graph);
 void graph_display_spots(Graph* graph);
 

@@ -99,30 +99,30 @@ void graph_destroy(Graph* graph) {
     free(graph);
 }
 
-static int find_spot_index(Graph* graph, int id) {
+static int find_spot_index(Graph* graph, const char* id) {
     for (int i = 0; i < graph->size; i++) {
-        if (graph->spots[i].id == id) {
+        if (strcmp(graph->spots[i].id, id) == 0) {
             return i;
         }
     }
     return -1;
 }
 
-int graph_add_spot(Graph* graph, int id, const char* name, const char* desc) {
+int graph_add_spot(Graph* graph, const char* id, const char* name, const char* desc) {
     if (graph->size >= graph->capacity) {
         return -1;
     }
     if (find_spot_index(graph, id) != -1) {
         return -2;
     }
-    graph->spots[graph->size].id = id;
+    strncpy(graph->spots[graph->size].id, id, sizeof(graph->spots[graph->size].id) - 1);
     strncpy(graph->spots[graph->size].name, name, sizeof(graph->spots[graph->size].name) - 1);
     strncpy(graph->spots[graph->size].desc, desc, sizeof(graph->spots[graph->size].desc) - 1);
     graph->size++;
     return 0;
 }
 
-int graph_add_path(Graph* graph, int from_id, int to_id, int distance) {
+int graph_add_path(Graph* graph, const char* from_id, const char* to_id, int distance) {
     int from_idx = find_spot_index(graph, from_id);
     int to_idx = find_spot_index(graph, to_id);
     if (from_idx == -1 || to_idx == -1) {
@@ -130,13 +130,13 @@ int graph_add_path(Graph* graph, int from_id, int to_id, int distance) {
     }
     
     AdjNode* new_node = (AdjNode*)malloc(sizeof(AdjNode));
-    new_node->spot_id = to_id;
+    strncpy(new_node->spot_id, to_id, sizeof(new_node->spot_id) - 1);
     new_node->distance = distance;
     new_node->next = graph->adj_list[from_idx];
     graph->adj_list[from_idx] = new_node;
     
     new_node = (AdjNode*)malloc(sizeof(AdjNode));
-    new_node->spot_id = from_id;
+    strncpy(new_node->spot_id, from_id, sizeof(new_node->spot_id) - 1);
     new_node->distance = distance;
     new_node->next = graph->adj_list[to_idx];
     graph->adj_list[to_idx] = new_node;
@@ -147,19 +147,19 @@ int graph_add_path(Graph* graph, int from_id, int to_id, int distance) {
 void graph_display_spots(Graph* graph) {
     printf("景点链表:\n");
     for (int i = 0; i < graph->size; i++) {
-        printf("[%d] %s - %s\n", graph->spots[i].id, graph->spots[i].name, graph->spots[i].desc);
+        printf("[%s] %s - %s\n", graph->spots[i].id, graph->spots[i].name, graph->spots[i].desc);
     }
 }
 
 void graph_display(Graph* graph) {
     printf("\n景区图（邻接表）:\n");
     for (int i = 0; i < graph->size; i++) {
-        printf("[%d] %s:\n", graph->spots[i].id, graph->spots[i].name);
+        printf("[%s] %s:\n", graph->spots[i].id, graph->spots[i].name);
         AdjNode* curr = graph->adj_list[i];
         while (curr != NULL) {
             int spot_idx = find_spot_index(graph, curr->spot_id);
             if (spot_idx != -1) {
-                printf("    -> [%d]%s (距离: %dkm)\n", curr->spot_id, graph->spots[spot_idx].name, curr->distance);
+                printf("    -> [%s]%s (距离: %dkm)\n", curr->spot_id, graph->spots[spot_idx].name, curr->distance);
             }
             curr = curr->next;
         }

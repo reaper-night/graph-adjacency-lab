@@ -81,15 +81,15 @@ void test_scenic_graph(void) {
     
     Graph* graph = graph_create(10);
     
-    graph_add_spot(graph, 1, "西湖", "杭州著名景点");
-    graph_add_spot(graph, 2, "灵隐寺", "千年古刹");
-    graph_add_spot(graph, 3, "雷峰塔", "传奇故事");
-    graph_add_spot(graph, 4, "断桥", "浪漫传说");
+    graph_add_spot(graph, "1", "西湖", "杭州著名景点");
+    graph_add_spot(graph, "2", "灵隐寺", "千年古刹");
+    graph_add_spot(graph, "3", "雷峰塔", "传奇故事");
+    graph_add_spot(graph, "4", "断桥", "浪漫传说");
     
-    graph_add_path(graph, 1, 2, 5);
-    graph_add_path(graph, 1, 3, 3);
-    graph_add_path(graph, 2, 4, 4);
-    graph_add_path(graph, 3, 4, 2);
+    graph_add_path(graph, "1", "2", 5);
+    graph_add_path(graph, "1", "3", 3);
+    graph_add_path(graph, "2", "4", 4);
+    graph_add_path(graph, "3", "4", 2);
     
     graph_display_spots(graph);
     graph_display(graph);
@@ -99,8 +99,8 @@ void test_scenic_graph(void) {
 
 void interactive_graph(void) {
     Graph* graph = NULL;
-    int choice, id, from_id, to_id, distance, capacity;
-    char name[50], desc[100];
+    int choice, distance, capacity;
+    char id[20], from_id[20], to_id[20], name[50], desc[100];
     
     printf("\n\n===== 景区路径规划系统 =====\n");
     
@@ -113,7 +113,11 @@ void interactive_graph(void) {
         printf("5. 显示景点链表\n");
         printf("6. 退出\n");
         printf("请输入选择: ");
-        scanf("%d", &choice);
+        if (scanf("%d", &choice) != 1) {
+            printf("输入无效，请输入数字！\n");
+            while (getchar() != '\n');
+            continue;
+        }
         
         switch (choice) {
             case 1:
@@ -121,7 +125,11 @@ void interactive_graph(void) {
                     graph_destroy(graph);
                 }
                 printf("请输入图的容量: ");
-                scanf("%d", &capacity);
+                if (scanf("%d", &capacity) != 1) {
+                    printf("输入无效，请输入数字！\n");
+                    while (getchar() != '\n');
+                    continue;
+                }
                 graph = graph_create(capacity);
                 printf("图创建成功！容量: %d\n", capacity);
                 break;
@@ -132,7 +140,7 @@ void interactive_graph(void) {
                     break;
                 }
                 printf("请输入景点ID: ");
-                scanf("%d", &id);
+                scanf("%s", id);
                 printf("请输入景点名称: ");
                 scanf("%s", name);
                 printf("请输入景点描述: ");
@@ -153,11 +161,15 @@ void interactive_graph(void) {
                     break;
                 }
                 printf("请输入起点景点ID: ");
-                scanf("%d", &from_id);
+                scanf("%s", from_id);
                 printf("请输入终点景点ID: ");
-                scanf("%d", &to_id);
+                scanf("%s", to_id);
                 printf("请输入路径距离(km): ");
-                scanf("%d", &distance);
+                if (scanf("%d", &distance) != 1) {
+                    printf("输入无效，请输入数字！\n");
+                    while (getchar() != '\n');
+                    continue;
+                }
                 ret = graph_add_path(graph, from_id, to_id, distance);
                 if (ret == 0) {
                     printf("路径添加成功！\n");
