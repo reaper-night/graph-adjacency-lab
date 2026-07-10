@@ -1,9 +1,0 @@
-*.o
-*.exe
-*.out
-bin/
-build/
-.DS_Store
-.vscode/
-*.swp
-*.swo
