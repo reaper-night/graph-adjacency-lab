@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>杭州三天旅行攻略</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header .dates {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .weather-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .weather-card {
+            background: rgba(255,255,255,0.2);
+            padding: 15px 25px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .weather-card i {
+            font-size: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 4px solid #3498db;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .daily-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .day-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .day-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .day-header {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .day-header h3 {
+            font-size: 1.4rem;
+        }
+
+        .day-header .date {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .day-activities {
+            padding: 20px;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .activity-icon.attraction {
+            background: #f39c12;
+            color: white;
+        }
+
+        .activity-icon.dining {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .activity-icon.transport {
+            background: #9b59b6;
+            color: white;
+        }
+
+        .activity-icon.hotel {
+            background: #1abc9c;
+            color: white;
+        }
+
+        .activity-info h4 {
+            color: #2c3e50;
+            margin-bottom: 3px;
+        }
+
+        .activity-info p {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .detailed-schedule {
+            margin-bottom: 40px;
+        }
+
+        .schedule-day {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .schedule-day-header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .schedule-day-header h3 {
+            font-size: 1.3rem;
+        }
+
+        .schedule-day-header .weather {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .schedule-timeline {
+            padding: 20px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 20px;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+            position: relative;
+        }
+
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 59px;
+            top: 60px;
+            bottom: 0;
+            width: 2px;
+            background: #ddd;
+        }
+
+        .timeline-item:last-child::before {
+            display: none;
+        }
+
+        .timeline-time {
+            width: 100px;
+            flex-shrink: 0;
+            text-align: right;
+            font-weight: bold;
+            color: #3498db;
+            padding-top: 10px;
+        }
+
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #3498db;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #3498db;
+            flex-shrink: 0;
+            margin-top: 10px;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .timeline-card h4 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .timeline-card .location {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .timeline-card p {
+            color: #555;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+        }
+
+        .timeline-card .notes {
+            background: #fff3cd;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            color: #856404;
+        }
+
+        .attraction-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .image-card {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .image-card .caption {
+            padding: 10px;
+            background: white;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        #map {
+            height: 500px;
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        .map-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .map-btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .map-btn.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .map-btn:not(.active) {
+            background: white;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .map-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .accommodation-section, .practical-info,.matrix-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        .matrix-table-wrap{overflow-x:auto;margin:18px 0}
+        .matrix-table{width:100%;border-collapse:collapse}
+        .matrix-table th,.matrix-table td{border:1px solid #ddd;padding:10px;text-align:center;min-width:90px}
+        .matrix-table th{background:#3498db;color:#fff}
+        .matrix-table td:hover{background:#e8f4fc}
+        .route-query-area{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+        .route-query-area select,.route-query-area button{padding:9px 12px;border-radius:6px;border:1px solid #ddd}
+        .route-query-area button{background:#3498db;color:#fff;border:none;cursor:pointer}
+        #route-result{margin-top:14px;padding:14px;background:#f0f7ff;border-radius:8px;white-space:pre-line}
+
+        .accommodation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .acc-card {
+            border: 1px solid #eee;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .acc-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .acc-card .info {
+            padding: 20px;
+        }
+
+        .acc-card .info h4 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .acc-card .info .address {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .acc-card .info .price {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .dining-section {
+            margin-top: 30px;
+        }
+
+        .dining-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .dining-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .dining-card h4 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .dining-card .cuisine {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .dining-card .dishes {
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .practical-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .practical-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .practical-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .practical-card.emerald {
+            color: #1abc9c;
+        }
+
+        .practical-card.blue {
+            color: #3498db;
+        }
+
+        .practical-card.orange {
+            color: #f39c12;
+        }
+
+        .practical-card.red {
+            color: #e74c3c;
+        }
+
+        .practical-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .practical-card p {
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .weather-info {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .timeline-item {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .timeline-time {
+                text-align: left;
+                width: auto;
+            }
+
+            .timeline-item::before {
+                display: none;
+            }
+
+            .timeline-dot {
+                display: none;
+            }
+
+            .schedule-day-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            header {
+                background: #2c3e50 !important;
+                color: white !important;
+            }
+
+            #map {
+                height: 400px;
+            }
+
+            .map-controls {
+                display: none;
+            }
+
+            footer {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-map-marker-alt"></i> 杭州三天旅行攻略</h1>
+            <div class="dates">2026年7月20日 - 7月22日（暑期出行）</div>
+            <div class="weather-info">
+                <div class="weather-card">
+                    <i class="fas fa-cloud-sun"></i>
+                    <div>
+                        <div>天气：晴转多云</div>
+                        <div>气温：26°C - 35°C</div>
+                    </div>
+                </div>
+                <div class="weather-card">
+                    <i class="fas fa-thermometer-half"></i>
+                    <div>
+                        <div>湿度：75%</div>
+                        <div>紫外线：强</div>
+                    </div>
+                </div>
+                <div class="weather-card">
+                    <i class="fas fa-sun"></i>
+                    <div>
+                        <div>穿衣：轻薄透气</div>
+                        <div>建议：携带雨具</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="daily-overview">
+            <h2 class="section-title"><i class="fas fa-calendar-alt"></i> 每日概览</h2>
+            <div class="day-card">
+                <div class="day-header">
+                    <h3>第一天</h3>
+                    <div class="date">7月20日 周六</div>
+                    <div class="date">西湖环游 · 断桥残雪</div>
+                </div>
+                <div class="day-activities">
+                    <div class="activity-item">
+                        <div class="activity-icon attraction">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <div class="activity-info">
+                            <h4>西湖景区</h4>
+                            <p>断桥残雪 → 白堤 → 苏堤</p>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon dining">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="activity-info">
+                            <h4>楼外楼</h4>
+                            <p>西湖醋鱼、龙井虾仁</p>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon attraction">
+                            <i class="fas fa-moon"></i>
+                        </div>
+                        <div class="activity-info">
+                            <h4>音乐喷泉</h4>
+                            <p>西湖夜景灯光秀</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card">
+                <div class="day-header">
+                    <h3>第二天</h3>
+                    <div class="date">7月21日 周日</div>
+                    <div class="date">灵隐祈福 · 龙井茶香</div>
+                </div>
+                <div class="day-activities">
+                    <div class="activity-item">
+                        <div class="activity-icon attraction">
+                            <i class="fas fa-landmark"></i>
+                        </div>
+                        <div class="activity-info">
+                            <h4>灵隐寺</h4>
+                            <p>飞来峰石窟 · 古刹祈福</p>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon attraction">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <div class="activity-info">
+                            <h4>龙井村</h4>
+                            <p>茶园漫步 · 品龙井茶</p>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon dining">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="activity-info">
+                            <h4>龙井餐厅</h4>
+                            <p>农家菜 · 茶香排骨</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card">
+                <div class="day-header">
+                    <h3>第三天</h3>
+                    <div class="date">7月22日 周一</div>
+                    <div class="date">运河古韵 · 城市漫步</div>
+                </div>
+                <div class="day-activities">
+                    <div class="activity-item">
+                        <div class="activity-icon attraction">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="activity-info">
+                            <h4>河坊街</h4>
+                            <p>南宋御街 · 老字号商铺</p>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon attraction">
+                            <i class="fas fa-ship"></i>
+                        </div>
+                        <div class="activity-info">
+                            <h4>京杭大运河</h4>
+                            <p>拱宸桥 · 运河博物馆</p>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon dining">
+                            <i class="fas fa-ice-cream"></i>
+                        </div>
+                        <div class="activity-info">
+                            <h4>知味观</h4>
+                            <p>小笼包 · 西湖藕粉</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="detailed-schedule">
+            <h2 class="section-title"><i class="fas fa-clock"></i> 详细行程</h2>
+
+            <div class="schedule-day">
+                <div class="schedule-day-header">
+                    <h3><i class="fas fa-sun"></i> 第一天：西湖环游</h3>
+                    <div class="weather">
+                        <i class="fas fa-cloud-sun"></i> 晴 28°C-35°C
+                    </div>
+                </div>
+                <div class="schedule-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-time">09:00</div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-card">
+                                <h4><i class="fas fa-map-marker"></i> 断桥残雪</h4>
+                                <div class="location"><i class="fas fa-location-arrow"></i> 西湖景区北部</div>
+                                <p>从断桥开始西湖环游，欣赏西湖全景，感受许仙白娘子的传说故事。</p>
+                                <div class="notes">💡 建议：早晨人少，适合拍照</div>
+                                <div class="attraction-images">
+                                    <div class="image-card">
+                                        <img src="https://images.unsplash.com/photo-1544569936-946f5c4c8f5d?w=400&h=200&fit=crop" alt="断桥残雪">
+                                        <div class="caption">断桥残雪</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">10:30</div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-card">
+                                <h4><i class="fas fa-tree"></i> 白堤漫步</h4>
+                                <div class="location"><i class="fas fa-location-arrow"></i> 断桥至平湖秋月</div>
+                                <p>沿白堤步行，两旁柳树成荫，可远眺孤山、苏堤，欣赏西湖十景之平湖秋月。</p>
+                                <div class="notes">💡 建议：步行约30分钟，沿途有多个观景台</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">12:00</div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-card">
+                                <h4><i class="fas fa-utensils"></i> 楼外楼午餐</h4>
+                                <div class="location"><i class="fas fa-location-arrow"></i> 孤山路30号</div>
+                                <p>品尝正宗杭帮菜：西湖醋鱼、龙井虾仁、叫花鸡等经典菜品。</p>
+                                <div class="notes">💡 建议：提前预订，避免排队</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">14:00</div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-card">
+                                <h4><i class="fas fa-walking"></i> 苏堤春晓</h4>
+                                <div class="location"><i class="fas fa-location-arrow"></i> 西湖西岸</div>
+                                <p>漫步苏堤，感受"苏堤春晓"美景，欣赏西湖全景和雷峰塔。</p>
+                                <div class="notes">💡 建议：苏堤全长2.8公里，可乘坐观光车</div>
+                                <div class="attraction-images">
+                                    <div class="image-card">
+                                        <img src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?w=400&h=200&fit=crop" alt="苏堤春晓">
+                                        <div class="caption">苏堤春晓</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">18:30</div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-card">
+                                <h4><i class="fas fa-music"></i> 西湖音乐喷泉</h4>
+                                <div class="location"><i class="fas fa-location-arrow"></i> 湖滨三公园</div>
+                                <p>欣赏西湖夜景和音乐喷泉表演，灯光与喷泉交织，美不胜收。</p>
+                                <div class="notes">💡 建议：提前30分钟到达占位置</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="schedule-day">
+                <div class="schedule-day-header">
+                    <h3><i class="fas fa-landmark"></i> 第二天：灵隐祈福</h3>
+                    <div class="weather">
+                        <i class="fas fa-cloud-sun"></i> 多云 27°C-34°C
+                    </div>
+                </div>
+                <div class="schedule-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-time">08:30</div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-card">
+                                <h4><i class="fas fa-landmark"></i> 灵隐寺</h4>
+                                <div class="location"><i class="fas fa-location-arrow"></i> 西湖区灵隐路法云弄1号</div>
+                                <p>游览千年古刹灵隐寺，参观大雄宝殿、药师殿，感受佛教文化。</p>
+                                <div class="notes">💡 建议：门票45元，飞来峰景区45元</div>
+                                <div class="attraction-images">
+                                    <div class="image-card">
+                                        <img src="https://images.unsplash.com/photo-1543286386-713bdd548da4?w=400&h=200&fit=crop" alt="灵隐寺">
+                                        <div class="caption">灵隐寺</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">10:30</div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-card">
+                                <h4><i class="fas fa-mountain"></i> 飞来峰石窟</h4>
+                                <div class="location"><i class="fas fa-location-arrow"></i> 灵隐寺景区内</div>
+                                <p>观赏五代至宋元时期的石刻造像，感受古代雕刻艺术魅力。</p>
+                                <div class="notes">💡 建议：跟随导游讲解更有收获</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">12:30</div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-card">
+                                <h4><i class="fas fa-utensils"></i> 农家菜午餐</h4>
+                                <div class="location"><i class="fas fa-location-arrow"></i> 龙井村附近</div>
+                                <p>品尝地道杭帮农家菜，推荐茶香排骨、清蒸鲈鱼。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">14:00</div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-card">
+                                <h4><i class="fas fa-leaf"></i> 龙井村</h4>
+                                <div class="location"><i class="fas fa-location-arrow"></i> 西湖区龙井路</div>
+                                <p>漫步茶园，参观龙井茶文化村，品尝正宗西湖龙井。</p>
+                                <div class="notes">💡 建议：购买茶叶时注意辨别真伪</div>
+                                <div class="attraction-images">
+                                    <div class="image-card">
+                                        <img src="https://images.unsplash.com/photo-1552832230-f4847059b08a?w=400&h=200&fit=crop" alt="龙井茶园">
+                                        <div class="caption">龙井茶园</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">16:30</div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-card">
+                                <h4><i class="fas fa-building"></i> 九溪烟树</h4>
+                                <div class="location"><i class="fas fa-location-arrow"></i> 西湖区九溪路</div>
+                                <p>游览九溪烟树，感受溪流潺潺、茶园叠翠的自然风光。</p>
+                                <div class="notes">💡 建议：适合徒步，穿舒适运动鞋</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="schedule-day">
+                <div class="schedule-day-header">
+                    <h3><i class="fas fa-ship"></i> 第三天：运河古韵</h3>
+                    <div class="weather">
+                        <i class="fas fa-sun"></i> 晴 28°C-36°C
+                    </div>
+                </div>
+                <div class="schedule-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-time">09:00</div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-card">
+                                <h4><i class="fas fa-store"></i> 河坊街</h4>
+                                <div class="location"><i class="fas fa-location-arrow"></i> 上城区河坊街</div>
+                                <p>漫步南宋御街，逛老字号商铺，感受杭州历史文化。</p>
+                                <div class="notes">💡 建议：可以购买丝绸、茶叶等特产</div>
+                                <div class="attraction-images">
+                                    <div class="image-card">
+                                        <img src="https://images.unsplash.com/photo-1547080353-e8f79b0b6e2d?w=400&h=200&fit=crop" alt="河坊街">
+                                        <div class="caption">河坊街</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">10:30</div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-card">
+                                <h4><i class="fas fa-utensils"></i> 知味观早餐</h4>
+                                <div class="location"><i class="fas fa-location-arrow"></i> 河坊街85号</div>
+                                <p>品尝杭州特色小吃：小笼包、猫耳朵、西湖藕粉。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">12:00</div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-card">
+                                <h4><i class="fas fa-utensils"></i> 杭帮菜午餐</h4>
+                                <div class="location"><i class="fas fa-location-arrow"></i> 市区推荐餐厅</div>
+                                <p>最后一餐杭帮菜，推荐东坡肉、宋嫂鱼羹。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">14:00</div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-card">
+                                <h4><i class="fas fa-ship"></i> 京杭大运河</h4>
+                                <div class="location"><i class="fas fa-location-arrow"></i> 拱墅区运河广场</div>
+                                <p>参观拱宸桥，游览中国京杭大运河博物馆，了解运河历史。</p>
+                                <div class="notes">💡 建议：可以乘坐运河游船体验</div>
+                                <div class="attraction-images">
+                                    <div class="image-card">
+                                        <img src="https://images.unsplash.com/photo-1553775611-3e946e583937?w=400&h=200&fit=crop" alt="京杭大运河">
+                                        <div class="caption">京杭大运河</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">16:30</div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-card">
+                                <h4><i class="fas fa-plane-departure"></i> 返程准备</h4>
+                                <div class="location"><i class="fas fa-location-arrow"></i> 杭州东站/萧山机场</div>
+                                <p>整理行李，前往车站或机场，结束愉快旅程。</p>
+                                <div class="notes">💡 建议：提前2小时到达机场，1小时到达车站</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title"><i class="fas fa-map"></i> 旅游路线地图</h2>
+            <div class="map-controls">
+                <button class="map-btn active" onclick="showRoute(1)">第一天路线</button>
+                <button class="map-btn" onclick="showRoute(2)">第二天路线</button>
+                <button class="map-btn" onclick="showRoute(3)">第三天路线</button>
+                <button class="map-btn" onclick="showAllRoutes()">显示全部路线</button>
+            </div>
+            <div id="map"></div>
+        </section>
+
+        <section class="matrix-section">
+            <h2 class="section-title"><i class="fas fa-table"></i> 景点通勤邻接矩阵（单位：分钟）</h2>
+            <p>表格数值代表两个景点打车通勤耗时，对角线数值为0代表景点自身，基于杭州真实路况统计</p>
+            <div class="matrix-table-wrap">
+                <table class="matrix-table">
+                    <thead>
+                        <tr>
+                            <th>景点</th>
+                            <th>1.断桥残雪</th>
+                            <th>2.灵隐寺</th>
+                            <th>3.龙井村</th>
+                            <th>4.河坊街</th>
+                            <th>5.拱宸桥</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>1.断桥残雪</th>
+                            <td>0</td><td>35</td><td>28</td><td>12</td><td>32</td>
+                        </tr>
+                        <tr>
+                            <th>2.灵隐寺</th>
+                            <td>35</td><td>0</td><td>18</td><td>40</td><td>50</td>
+                        </tr>
+                        <tr>
+                            <th>3.龙井村</th>
+                            <td>28</td><td>18</td><td>0</td><td>33</td><td>45</td>
+                        </tr>
+                        <tr>
+                            <th>4.河坊街</th>
+                            <td>12</td><td>40</td><td>33</td><td>0</td><td>27</td>
+                        </tr>
+                        <tr>
+                            <th>5.拱宸桥</th>
+                            <td>32</td><td>50</td><td>45</td><td>27</td><td>0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="route-query-area">
+                <span>出发景点：</span>
+                <select id="startSpot">
+                    <option value="0">断桥残雪</option>
+                    <option value="1">灵隐寺</option>
+                    <option value="2">龙井村</option>
+                    <option value="3">河坊街</option>
+                    <option value="4">拱宸桥</option>
+                </select>
+                <span>终点景点：</span>
+                <select id="endSpot">
+                    <option value="0">断桥残雪</option>
+                    <option value="1">灵隐寺</option>
+                    <option value="2">龙井村</option>
+                    <option value="3">河坊街</option>
+                    <option value="4">拱宸桥</option>
+                </select>
+                <button onclick="calcShortestPath()">查询最短通勤路线</button>
+            </div>
+            <div id="route-result">等待发起路线查询</div>
+        </section>
+
+        <section class="accommodation-section">
+            <h2 class="section-title"><i class="fas fa-hotel"></i> 住宿推荐</h2>
+            <div class="accommodation-grid">
+                <div class="acc-card">
+                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=250&fit=crop" alt="西湖国宾馆">
+                    <div class="info">
+                        <h4>西湖国宾馆</h4>
+                        <div class="address"><i class="fas fa-map-pin"></i> 西湖区杨公堤18号</div>
+                        <div class="price">¥1500起/晚</div>
+                        <p>紧邻西湖，环境清幽，国宾级服务体验</p>
+                    </div>
+                </div>
+                <div class="acc-card">
+                    <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=400&h=250&fit=crop" alt="桔子水晶酒店">
+                    <div class="info">
+                        <h4>桔子水晶杭州西湖店</h4>
+                        <div class="address"><i class="fas fa-map-pin"></i> 上城区平海路2号</div>
+                        <div class="price">¥600起/晚</div>
+                        <p>现代设计风格，交通便利，近湖滨商圈</p>
+                    </div>
+                </div>
+                <div class="acc-card">
+                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400&h=250&fit=crop" alt="杭州洲际酒店">
+                    <div class="info">
+                        <h4>杭州洲际酒店</h4>
+                        <div class="address"><i class="fas fa-map-pin"></i> 江干区解放东路2号</div>
+                        <div class="price">¥800起/晚</div>
+                        <p>钱江新城核心，俯瞰钱塘江，豪华体验</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dining-section">
+                <h3 class="section-title" style="font-size: 1.4rem;"><i class="fas fa-utensils"></i> 美食推荐</h3>
+                <div class="dining-list">
+                    <div class="dining-card">
+                        <h4>楼外楼</h4>
+                        <div class="cuisine">杭帮菜 · 老字号</div>
+                        <div class="dishes">⭐ 推荐：西湖醋鱼、龙井虾仁、叫花鸡</div>
+                    </div>
+                    <div class="dining-card">
+                        <h4>知味观</h4>
+                        <div class="cuisine">小吃 · 点心</div>
+                        <div class="dishes">⭐ 推荐：小笼包、猫耳朵、西湖藕粉</div>
+                    </div>
+                    <div class="dining-card">
+                        <h4>外婆家</h4>
+                        <div class="cuisine">杭帮菜 · 亲民</div>
+                        <div class="dishes">⭐ 推荐：茶香鸡、麻婆豆腐、青豆泥</div>
+                    </div>
+                    <div class="dining-card">
+                        <h4>龙井餐厅</h4>
+                        <div class="cuisine">农家菜 · 茶园</div>
+                        <div class="dishes">⭐ 推荐：茶香排骨、清蒸鲈鱼、炒茶</div>
+                    </div>
+                    <div class="dining-card">
+                        <h4>福缘居</h4>
+                        <div class="cuisine">老杭帮私房菜</div>
+                        <div class="dishes">⭐ 推荐：油爆虾、糟鸡、蛋卷肉</div>
+                    </div>
+                    <div class="dining-card">
+                        <h4>方老大面</h4>
+                        <div class="cuisine">杭州地道片儿川</div>
+                        <div class="dishes">⭐ 推荐：腰花拌川、牛肉片儿川</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="practical-info">
+            <h2 class="section-title"><i class="fas fa-info-circle"></i> 实用信息</h2>
+            <div class="practical-grid">
+                <div class="practical-card emerald">
+                    <i class="fas fa-phone"></i>
+                    <h4>紧急电话</h4>
+                    <p>报警：110</p>
+                    <p>急救：120</p>
+                    <p>火警：119</p>
+                    <p>旅游咨询：0571-96123</p>
+                </div>
+                <div class="practical-card blue">
+                    <i class="fas fa-subway"></i>
+                    <h4>交通信息</h4>
+                    <p>地铁：已开通1-10号线</p>
+                    <p>公交：覆盖全城</p>
+                    <p>出租车：起步价13元</p>
+                    <p>共享单车：扫码骑行</p>
+                </div>
+                <div class="practical-card orange">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>注意事项</h4>
+                    <p>暑期天气炎热，注意防晒</p>
+                    <p>西湖景区人多，保管好财物</p>
+                    <p>购买特产注意辨别真伪</p>
+                    <p>尊重当地风俗习惯</p>
+                </div>
+                <div class="practical-card red">
+                    <i class="fas fa-credit-card"></i>
+                    <h4>消费指南</h4>
+                    <p>人均餐饮：¥80-150</p>
+                    <p>景点门票：¥50-200</p>
+                    <p>交通费用：¥30-50/天</p>
+                    <p>推荐使用支付宝</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p><i class="fas fa-heart"></i> 祝您杭州之旅愉快！</p>
+            <p style="font-size: 0.8rem; opacity: 0.8;">杭州三天旅行攻略 · 精心策划</p>
+        </footer>
+    </div>
+
+    <script src="https://webapi.amap.com/maps?v=1.4.15&key=ce17bb4886441649d265095bdbc02cd2"></script>
+    <script>
+        var map;
+        var overlays = [];
+        var dayColors = { 1: '#3498db', 2: '#e74c3c', 3: '#2ecc71' };
+        const spotNames = ["断桥残雪","灵隐寺","龙井村","河坊街","拱宸桥"];
+        const matrix = [
+            [0,35,28,12,32],
+            [35,0,18,40,50],
+            [28,18,0,33,45],
+            [12,40,33,0,27],
+            [32,50,45,27,0]
+        ];
+
+        function calcShortestPath(){
+            const st = Number(document.getElementById("startSpot").value);
+            const ed = Number(document.getElementById("endSpot").value);
+            const len = matrix.length;
+            const dist = Array(len).fill(99999);
+            const visited = Array(len).fill(false);
+            const prev = Array(len).fill(-1);
+            dist[st] = 0;
+
+            for(let i=0;i<len;i++){
+                let minVal=99999, idx=-1;
+                for(let j=0;j<len;j++){
+                    if(!visited[j] && dist[j]<minVal){
+                        minVal=dist[j];idx=j;
+                    }
+                }
+                if(idx===-1) break;
+                visited[idx]=true;
+                for(let v=0;v<len;v++){
+                    if(!visited[v] && matrix[idx][v]!==0 && dist[v]>dist[idx]+matrix[idx][v]){
+                        dist[v]=dist[idx]+matrix[idx][v];
+                        prev[v]=idx;
+                    }
+                }
+            }
+            let path=[];
+            let cur=ed;
+            while(cur!==-1){
+                path.push(cur);
+                cur=prev[cur];
+            }
+            path.reverse();
+            const pathText = path.map(i=>spotNames[i]).join(" → ");
+            document.getElementById("route-result").innerText = `最优路线：${pathText}\n通勤耗时：${dist[ed]}分钟`;
+        }
+
+        function initMap() {
+            map = new AMap.Map('map', {
+                zoom: 13,
+                center: [120.15, 30.28]
+            });
+            
+            showAllRoutes();
+        }
+
+        function showRoute(day) {
+            clearOverlays();
+            
+            var routePoints;
+            if (day === 1) {
+                routePoints = [
+                    { lng: 120.155, lat: 30.285 },
+                    { lng: 120.15, lat: 30.275 },
+                    { lng: 120.145, lat: 30.265 }
+                ];
+            } else if (day === 2) {
+                routePoints = [
+                    { lng: 120.12, lat: 30.29 },
+                    { lng: 120.135, lat: 30.27 },
+                    { lng: 120.14, lat: 30.255 }
+                ];
+            } else if (day === 3) {
+                routePoints = [
+                    { lng: 120.158, lat: 30.255 },
+                    { lng: 120.165, lat: 30.275 },
+                    { lng: 120.15, lat: 30.285 }
+                ];
+            }
+
+            if (routePoints) {
+                new AMap.Polyline({
+                    path: routePoints,
+                    strokeColor: dayColors[day],
+                    strokeWeight: 5,
+                    map: map
+                });
+                
+                routePoints.forEach(function(point, index) {
+                    new AMap.Marker({
+                        position: point,
+                        map: map,
+                        icon: new AMap.Icon({
+                            imageSize: new AMap.Size(32, 32),
+                            image: 'https://webapi.amap.com/theme/v1.3/markers/n/mark_b' + index + '.png'
+                        })
+                    });
+                });
+            }
+            
+            updateActiveBtn(day);
+        }
+
+        function showAllRoutes() {
+            clearOverlays();
+            showRoute(1);
+            showRoute(2);
+            showRoute(3);
+            updateActiveBtn(0);
+        }
+
+        function clearOverlays() {
+            map.clearMap();
+        }
+
+        function updateActiveBtn(activeDay) {
+            var btns = document.querySelectorAll('.map-btn');
+            btns.forEach(function(btn, index) {
+                if ((activeDay === 0 && index === 3) || (index + 1 === activeDay)) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        initMap();
+    </script>
+</body>
+</html>
